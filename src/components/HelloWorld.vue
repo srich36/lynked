@@ -83,6 +83,7 @@
         icon="mdi-tag-multiple"
         :count="2"
         :color="colors[idx]"
+        :closable="false"
         @close="iconClosed(idx)"
       ></Tag>
     </div>

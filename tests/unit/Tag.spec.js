@@ -9,7 +9,8 @@ import Tag from "src/components/Tag";
 const propsData = {
   color: "purple",
   icon: "md-icon",
-  count: 2
+  count: 2,
+  closeable: false
 };
 
 describe("Tag.vue", () => {
@@ -18,12 +19,12 @@ describe("Tag.vue", () => {
     expect(wrapper.props().color).toBeDefined();
     expect(wrapper.props().count).toBeUndefined();
     expect(wrapper.props().icon).toBeUndefined();
+    expect(wrapper.props().closeable).toBeTruthy();
     expect(wrapper.find(".v-icon-test").exists()).toBe(false);
   });
 
-  it("Renders proper color", () => {
+  it("Renders ripple", () => {
     const wrapper = shallowMount(Tag);
-    expect(wrapper.attributes()).toHaveProperty("close", "true");
     expect(wrapper.attributes()).toHaveProperty("ripple", "true");
   });
 
@@ -68,9 +69,15 @@ describe("Tag.vue", () => {
       //Icon has the proper text
       expect(vIcon.text()).toBe(propsData.icon);
     });
+
+    it("Prevents icon from being closed when not closable", () => {
+      const wrapper = shallowMount(Tag, propsData);
+      const vChip = wrapper.find({ name: "VChip" });
+      expect(vChip.props().close).toBeFalsy();
+    });
   });
 
-  describe("emits proper events from subcomponents", () => {
+  describe("handles events from child components", () => {
     it("Emits @click:close from v-chip child component", async () => {
       const wrapper = shallowMount(Tag);
       const vChip = wrapper.find({ name: "VChip" });

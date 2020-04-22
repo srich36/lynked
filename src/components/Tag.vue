@@ -3,7 +3,7 @@
     class="ma-2"
     :color="color"
     text-color="white"
-    close
+    :close="closeAble"
     ripple
     @click:close="closed"
   >
@@ -36,6 +36,10 @@ export default {
     },
     icon: {
       type: String
+    },
+    closeable: {
+      type: Boolean,
+      default: true
     }
   },
 
