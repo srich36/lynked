@@ -16,7 +16,10 @@
       {{ count }}
     </v-avatar>
     Years
-    <v-icon right v-if="typeof icon !== 'undefined'">{{ icon }}</v-icon>
+
+    <span class="v-icon-span" v-if="typeof icon !== 'undefined'">
+      <v-icon right>{{ icon }}</v-icon>
+    </span>
   </v-chip>
 </template>
 
@@ -37,8 +40,7 @@ export default {
   },
 
   methods: {
-    closed(e) {
-      console.log(e);
+    closed() {
       this.$emit("close");
     }
   }
