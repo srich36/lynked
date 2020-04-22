@@ -18,7 +18,7 @@ describe("Tag.vue", () => {
     expect(wrapper.props().color).toBeDefined();
     expect(wrapper.props().count).toBeUndefined();
     expect(wrapper.props().icon).toBeUndefined();
-    expect(wrapper.find(".v-icon-span").exists()).toBe(false);
+    expect(wrapper.find(".v-icon-test").exists()).toBe(false);
   });
 
   it("Renders proper color", () => {
@@ -60,13 +60,23 @@ describe("Tag.vue", () => {
       const wrapper = shallowMount(Tag, {
         propsData
       });
-      const vIcon = wrapper.find(".v-icon-span");
+      const vIcon = wrapper.find(".v-icon-test");
 
       //Icon v-if renders correctly
-      expect(wrapper.find(".v-icon-span").exists()).toBe(true);
+      expect(vIcon.exists()).toBe(true);
 
-      //Icon v-if has the proper text
+      //Icon has the proper text
       expect(vIcon.text()).toBe(propsData.icon);
+    });
+  });
+
+  describe("emits proper events from subcomponents", () => {
+    it("Emits @click:close from v-chip child component", async () => {
+      const wrapper = shallowMount(Tag);
+      const vChip = wrapper.find({ name: "VChip" });
+      vChip.vm.$emit("click:close");
+      await wrapper.vm.$nextTick();
+      expect(wrapper.emitted("close")).toBeTruthy();
     });
   });
 });

@@ -17,9 +17,9 @@
     </v-avatar>
     Years
 
-    <span class="v-icon-span" v-if="typeof icon !== 'undefined'">
-      <v-icon right>{{ icon }}</v-icon>
-    </span>
+    <v-icon class="v-icon-test" v-if="typeof icon !== 'undefined'" right>{{
+      icon
+    }}</v-icon>
   </v-chip>
 </template>
 
