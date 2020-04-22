@@ -5,7 +5,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        "src": path.resolve(__dirname, "src/")
+        src: path.resolve(__dirname, "src/")
       }
     }
   }

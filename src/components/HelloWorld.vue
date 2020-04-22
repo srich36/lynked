@@ -79,7 +79,12 @@
       </v-col>
     </v-row>
     <div v-for="(val, idx) in [1, 2, 3]" :key="idx">
-      <Tag icon="mdi-tag-multiple" :count="2" @close="iconClosed(idx)"></Tag>
+      <Tag
+        icon="mdi-tag-multiple"
+        :count="2"
+        :color="colors[idx]"
+        @close="iconClosed(idx)"
+      ></Tag>
     </div>
   </v-container>
 </template>
@@ -106,6 +111,7 @@ export default {
         href: "https://github.com/vuetifyjs/awesome-vuetify"
       }
     ],
+    colors: ["red", "green", "purple"],
     importantLinks: [
       {
         text: "Documentation",
