@@ -10,7 +10,10 @@
         <TagBox></TagBox>
       </v-col>
     </v-row>
-    <Post></Post>
+
+    <v-divider class="mt-n5 mb-3"></v-divider>
+
+    <Post v-for="(key, idx) in [1, 2, 3]" :key="idx"></Post>
   </v-container>
 </template>
 
