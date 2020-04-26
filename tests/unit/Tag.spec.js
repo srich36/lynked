@@ -37,6 +37,17 @@ describe("Tag.vue", () => {
     expect(wrapper.props().count).toBe(propsData.count);
   });
 
+  it("Displays slot correctly", () => {
+    const testText = "Test Text";
+    const wrapper = shallowMount(Tag, {
+      slots: {
+        default: testText
+      }
+    });
+    const contentDiv = wrapper.find(".tag-content");
+    expect(contentDiv.text()).toEqual(testText);
+  });
+
   describe("renders props", () => {
     it("Renders color correctly", () => {
       const wrapper = shallowMount(Tag, {

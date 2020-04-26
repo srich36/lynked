@@ -3,8 +3,9 @@
     class="ma-2"
     :color="color"
     text-color="white"
-    :close="closeAble"
+    :close="closeable"
     ripple
+    label
     @click:close="closed"
   >
     <v-avatar
@@ -12,10 +13,14 @@
       :class="color"
       class="darken-4"
       v-if="typeof count !== 'undefined'"
+      :size="40"
     >
       {{ count }}
     </v-avatar>
-    Years
+
+    <div class="tag-content">
+      <slot></slot>
+    </div>
 
     <v-icon class="v-icon-test" v-if="typeof icon !== 'undefined'" right>{{
       icon
@@ -29,7 +34,7 @@ export default {
   props: {
     color: {
       type: String,
-      default: "blue"
+      default: "grey"
     },
     count: {
       type: Number
@@ -40,6 +45,9 @@ export default {
     closeable: {
       type: Boolean,
       default: true
+    },
+    text: {
+      type: String
     }
   },
 
