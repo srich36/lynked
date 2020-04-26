@@ -10,17 +10,20 @@
         <TagBox></TagBox>
       </v-col>
     </v-row>
+    <Post></Post>
   </v-container>
 </template>
 
 <script>
 import SearchBar from "src/components/SearchBar";
 import TagBox from "src/components/TagBox";
+import Post from "src/components/Post";
 export default {
   name: "Home",
   components: {
     SearchBar,
-    TagBox
+    TagBox,
+    Post
   },
   data() {
     return {

@@ -15,7 +15,7 @@
     :filter="filterSearch"
   >
     <template v-slot:prepend-inner>
-      <v-tooltip bottom>
+      <v-tooltip bottom class="stretch-prepend">
         <template v-slot:activator="{ on }">
           <v-icon v-on="on">mdi-tag-multiple</v-icon>
         </template>
