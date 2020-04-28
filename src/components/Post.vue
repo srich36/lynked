@@ -63,8 +63,12 @@
       </v-col>
       <v-col cols="2" md="1" class="pl-0">
         <div class="vote-content h-100">
-          <v-icon>mdi-thumb-up</v-icon>
-          <v-icon>mdi-thumb-down</v-icon>
+          <v-btn icon>
+            <v-icon>mdi-thumb-up</v-icon>
+          </v-btn>
+          <v-btn icon>
+            <v-icon>mdi-thumb-down</v-icon>
+          </v-btn>
         </div></v-col
       >
     </v-row>
