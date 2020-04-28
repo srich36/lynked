@@ -108,6 +108,7 @@ export default {
       this.filterDuplicates();
       this.search = "";
       this.nonce = this.tagsSelected.length;
+      this.$emit("tags-updated", this.tagsSelected);
     }
   },
   methods: {

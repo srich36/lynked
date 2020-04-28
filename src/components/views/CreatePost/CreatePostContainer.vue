@@ -4,7 +4,7 @@
       <Navbar></Navbar>
       <v-content>
         <v-container>
-          Create posts here
+          <CreatePostContent></CreatePostContent>
         </v-container>
       </v-content>
       <v-footer app>
@@ -17,12 +17,14 @@
 <script>
 import Navbar from "src/components/Navbar";
 import AppFooter from "src/components/AppFooter";
+import CreatePostContent from "src/components/views/CreatePost/CreatePostContent";
 
 export default {
   name: "CreatePostContainer",
   components: {
     Navbar,
-    AppFooter
+    AppFooter,
+    CreatePostContent
   }
 };
 </script>
