@@ -160,15 +160,18 @@ export default {
 
   async mounted() {
     if (this.getPreview) {
-      const data = await instance.post("preview", {
-        post_id: this.postId
-      });
-      const previewParams = data.data;
+      try {
+        const data = await instance.post("preview", {
+          post_id: this.postId
+        });
+        const previewParams = data.data;
 
-      this.previewImageData = previewParams.preview_image_url;
-      this.previewTitleData = previewParams.preview_title;
-      this.previewDescriptionData = previewParams.preview_description;
-      this.previewReturned = true;
+        this.previewImageData = previewParams.preview_image_url;
+        this.previewTitleData = previewParams.preview_title;
+        this.previewDescriptionData = previewParams.preview_description;
+      } finally {
+        this.previewReturned = true;
+      }
     }
   }
 };

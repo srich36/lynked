@@ -40,7 +40,6 @@ export default {
   methods: {
     clearSearch() {
       this.search = "";
-      console.log(this);
     }
   }
 };

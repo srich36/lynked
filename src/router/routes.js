@@ -1,8 +1,13 @@
-import App from "src/App";
 export default [
   {
     path: "/",
-    name: "root",
-    component: App
+    name: "home",
+    component: () => import("src/components/views/Home/HomeContainer")
+  },
+  {
+    path: "/post",
+    name: "createPost",
+    component: () =>
+      import("src/components/views/CreatePost/CreatePostContainer")
   }
 ];
