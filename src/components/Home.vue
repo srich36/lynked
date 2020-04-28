@@ -21,6 +21,13 @@
       :description="post.description"
       :tags="post.tags"
       :index="idx"
+      :postId="post.id"
+      :getPreview="post.preview ? false : true"
+      :previewImageURL="post.preview ? post.preview.preview_image_url : null"
+      :previewDescription="
+        post.preview ? post.preview.preview_description : null
+      "
+      :previewTitle="post.preview ? post.preview.preview_title : null"
     ></Post>
   </v-container>
 </template>
@@ -29,6 +36,8 @@
 import SearchBar from "src/components/SearchBar";
 import TagBox from "src/components/TagBox";
 import Post from "src/components/Post";
+import instance from "src/main";
+
 export default {
   name: "Home",
   components: {
@@ -39,34 +48,12 @@ export default {
   data() {
     return {
       title: "Test",
-      posts: [
-        {
-          link:
-            "https://forge.medium.com/prepare-for-the-ultimate-gaslighting-6a8ce3f0a0e0",
-          title: "Keys.pub - Manage cryptographic keys and user identities",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim",
-
-          tags: [
-            {
-              title: "hn"
-            },
-            {
-              title: "stripe"
-            },
-            {
-              title: "Django Rest Framework Test"
-            },
-            {
-              title: "Django Rest Framework Test"
-            },
-            {
-              title: "Django Rest Framework Test"
-            }
-          ]
-        }
-      ]
+      posts: []
     };
+  },
+  async mounted() {
+    const data = await instance.get("posts");
+    this.posts = data.data;
   }
 };
 </script>

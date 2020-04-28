@@ -3,12 +3,7 @@
     <v-row>
       <v-col cols="3" class="pr-0 d-none d-sm-flex flex-column">
         <div class="col-image-content h-100">
-          <v-img
-            :lazy-src="defaultImagePath"
-            :src="imageSrc"
-            class="ma-1 ma-sm-2 ma-md-3"
-            max-height="175"
-          >
+          <v-img :src="imageSrc" class="ma-1 ma-sm-2 ma-md-3" max-height="175">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular
@@ -102,14 +97,32 @@ export default {
     },
     tags: {
       type: Array
+    },
+    previewImageURL: {
+      type: String
+    },
+    previewTitle: {
+      type: String
+    },
+    previewDescription: {
+      type: String
+    },
+    postId: {
+      type: Number,
+      required: true
+    },
+    getPreview: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      previewImage: undefined,
-      previewTitle: undefined,
-      previewDescription: undefined,
-      defaultImagePath: require("@/assets/mystery.png")
+      previewImageData: this.previewImageURL,
+      previewTitleData: this.previewTitle,
+      previewDescriptionData: this.previewDescription,
+      defaultImagePath: require("@/assets/mystery.png"),
+      previewReturned: !this.getPreview
     };
   },
 
@@ -129,10 +142,15 @@ export default {
       //returned null, then we return the default image path as the actual image. If the preview
       //image has not returned yet, return it to keep the image pointing to that source and blurring
       //
-      return this.previewImage === null
-        ? this.defaultImagePath
-        : this.previewImage;
-      //return this.previewImage ? this.previewImage : this.defaultImagePath;
+
+      //This will just give it a loading symbol
+      if (!this.previewReturned) {
+        return "";
+      }
+
+      return this.previewImageData
+        ? this.previewImageData
+        : this.defaultImagePath;
     },
     displayURL() {
       const url = new URL(this.link);
@@ -141,13 +159,17 @@ export default {
   },
 
   async mounted() {
-    const data = await instance.post("preview", {
-      url: this.link
-    });
-    const previewParams = data.data;
-    this.previewImage = previewParams.image;
-    this.previewTitle = previewParams.title;
-    this.previewDescription = previewParams.description;
+    if (this.getPreview) {
+      const data = await instance.post("preview", {
+        post_id: this.postId
+      });
+      const previewParams = data.data;
+
+      this.previewImageData = previewParams.preview_image_url;
+      this.previewTitleData = previewParams.preview_title;
+      this.previewDescriptionData = previewParams.preview_description;
+      this.previewReturned = true;
+    }
   }
 };
 </script>
