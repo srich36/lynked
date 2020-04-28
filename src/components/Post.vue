@@ -1,14 +1,13 @@
 <template>
   <v-card raised class="my-3 border-radius-8">
     <v-row>
-      <v-col cols="4" sm="3" class="pr-0">
+      <v-col cols="3" class="pr-0 d-none d-sm-flex flex-column">
         <div class="col-image-content h-100">
           <v-img
             :lazy-src="defaultImagePath"
             :src="imageSrc"
             class="ma-1 ma-sm-2 ma-md-3"
-            max-height="200"
-            contain
+            max-height="175"
           ></v-img>
           <div class="col-tag pt-2">
             <div class="bottom-content">
@@ -26,37 +25,28 @@
                 Date here
               </div>
             </div>
-            <!-- <v-chip
-              v-for="(tag, idx) in tags"
-              :key="idx"
-              label
-              small
-              class="ma-1"
-            >
-              {{ tag.title }}
-            </v-chip> -->
           </div>
         </div>
       </v-col>
       <v-col
         class="pl-1 pl-sm-4 pl-lg-5 pl-xl-6 pr-0 pt-0"
-        cols="6"
+        cols="10"
         sm="7"
         md="8"
       >
-        <div class="col-main-content h-100 d-flex flex-column">
-          <div class="post-top-content">
-            <v-subheader class="break-word pl-0">
+        <div class="col-main-content h-100 d-flex flex-column ml-5 ml-sm-1">
+          <div class="post-top-content pt-2 pb-1">
+            <div class="break-word pl-0 font-weight-thin body-2">
               {{ `${index + 1}. ${displayURL}` }}
-            </v-subheader>
+            </div>
           </div>
           <div class="post-content-main">
-            <h5>
+            <div class="title">
               {{ title }}
-            </h5>
-            <p>
+            </div>
+            <div class="body-1 pt-1">
               {{ displayDescription }}
-            </p>
+            </div>
           </div>
           <div class="post-content-bottom">
             <v-chip
@@ -172,8 +162,8 @@ export default {
 
 .col-image-content {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-direction: column !important;
+  justify-content: center;
 }
 
 .col-image {
@@ -203,9 +193,7 @@ export default {
 }
 
 .post-top-content {
-  display: flex;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 .img-fluid {

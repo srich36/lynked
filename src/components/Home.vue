@@ -43,7 +43,9 @@ export default {
         {
           link:
             "https://forge.medium.com/prepare-for-the-ultimate-gaslighting-6a8ce3f0a0e0",
-          title: "check check",
+          title: "Keys.pub - Manage cryptographic keys and user identities",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim",
 
           tags: [
             {
