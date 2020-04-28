@@ -56,6 +56,12 @@ export default {
             },
             {
               title: "Django Rest Framework Test"
+            },
+            {
+              title: "Django Rest Framework Test"
+            },
+            {
+              title: "Django Rest Framework Test"
             }
           ]
         }

@@ -8,23 +8,19 @@
             :src="imageSrc"
             class="ma-1 ma-sm-2 ma-md-3"
             max-height="175"
-          ></v-img>
-          <div class="col-tag pt-2">
-            <div class="bottom-content">
-              <v-icon color="grey lighten-1" small>
-                mdi-account-circle
-              </v-icon>
-              <div class="px-2 font-weight-thin caption">User here</div>
-            </div>
-
-            <div class="bottom-content">
-              <v-icon color="grey lighten-1" small>
-                mdi-calendar
-              </v-icon>
-              <div class="px-2 font-weight-thin caption">
-                Date here
-              </div>
-            </div>
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
+          <div class="user-col pt-2 mx-3 d-flex word-break">
+            <UserMuted class="d-flex"></UserMuted>
+            <DateMuted class="d-flex"></DateMuted>
           </div>
         </div>
       </v-col>
@@ -48,17 +44,24 @@
               {{ displayDescription }}
             </div>
           </div>
+          <div class="word-break d-flex ml-0 flex-wrap mt-2">
+            <UserMuted class="d-flex"></UserMuted>
+            <DateMuted class="d-flex"></DateMuted>
+          </div>
           <div class="post-content-bottom">
             <v-chip
               v-for="(tag, idx) in tags"
               :key="idx"
               label
               small
-              class="mt-1 mx-1"
+              class="mt-1 ml-0 mr-2"
             >
               {{ tag.title }}
             </v-chip>
           </div>
+          <!-- <PostUserData
+            class="d-none d-sm-flex mobile-user-bottom"
+          ></PostUserData> -->
         </div>
       </v-col>
       <v-col cols="2" md="1" class="pl-0">
@@ -73,8 +76,15 @@
 
 <script>
 import instance from "../main";
+import UserMuted from "src/components/UserMuted";
+import DateMuted from "src/components/DateMuted";
+
 export default {
   name: "Post",
+  components: {
+    UserMuted,
+    DateMuted
+  },
   props: {
     index: {
       type: Number
@@ -114,7 +124,13 @@ export default {
     },
 
     imageSrc() {
-      return this.previewImage;
+      //If image preview is null - not undefined - meaning we attempted to get the image and it
+      //returned null, then we return the default image path as the actual image. If the preview
+      //image has not returned yet, return it to keep the image pointing to that source and blurring
+      //
+      return this.previewImage === null
+        ? this.defaultImagePath
+        : this.previewImage;
       //return this.previewImage ? this.previewImage : this.defaultImagePath;
     },
     displayURL() {
@@ -170,7 +186,7 @@ export default {
   flex: 1;
 }
 
-.col-tag {
+.user-col {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -206,5 +222,9 @@ export default {
 }
 
 .post-image {
+}
+
+.word-break {
+  word-break: break-all;
 }
 </style>
