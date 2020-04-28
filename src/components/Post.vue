@@ -1,26 +1,49 @@
 <template>
   <v-card raised class="my-3 border-radius-8">
     <v-row>
-      <v-col cols="4" sm="3" class="ml-2 pr-0">
+      <v-col cols="4" sm="3" class="pr-0">
         <div class="col-image-content h-100">
           <v-img
             :lazy-src="defaultImagePath"
             :src="imageSrc"
-            class="ma-1"
+            class="ma-1 ma-sm-2 ma-md-3"
+            max-height="200"
+            contain
           ></v-img>
           <div class="col-tag pt-2">
-            <Tag
+            <div class="bottom-content">
+              <v-icon color="grey lighten-1" small>
+                mdi-account-circle
+              </v-icon>
+              <div class="px-2 font-weight-thin caption">User here</div>
+            </div>
+
+            <div class="bottom-content">
+              <v-icon color="grey lighten-1" small>
+                mdi-calendar
+              </v-icon>
+              <div class="px-2 font-weight-thin caption">
+                Date here
+              </div>
+            </div>
+            <!-- <v-chip
               v-for="(tag, idx) in tags"
-              icon="mdi-tag"
-              :closeable="false"
               :key="idx"
+              label
+              small
+              class="ma-1"
             >
               {{ tag.title }}
-            </Tag>
+            </v-chip> -->
           </div>
         </div>
       </v-col>
-      <v-col class="pl-1 pl-sm-4 pl-lg-5 pl-xl-6 pr-0 pt-0">
+      <v-col
+        class="pl-1 pl-sm-4 pl-lg-5 pl-xl-6 pr-0 pt-0"
+        cols="6"
+        sm="7"
+        md="8"
+      >
         <div class="col-main-content h-100 d-flex flex-column">
           <div class="post-top-content">
             <v-subheader class="break-word pl-0">
@@ -36,27 +59,19 @@
             </p>
           </div>
           <div class="post-content-bottom">
-            <div class="bottom-content">
-              <v-icon color="grey lighten-1" small>
-                mdi-account-circle
-              </v-icon>
-              <div class="px-2">
-                User here
-              </div>
-            </div>
-
-            <div class="bottom-content">
-              <v-icon color="grey lighten-1" small>
-                mdi-calendar
-              </v-icon>
-              <div class="px-2">
-                Date here
-              </div>
-            </div>
+            <v-chip
+              v-for="(tag, idx) in tags"
+              :key="idx"
+              label
+              small
+              class="mt-1 mx-1"
+            >
+              {{ tag.title }}
+            </v-chip>
           </div>
         </div>
       </v-col>
-      <v-col cols="2" lg="1" class="pl-0">
+      <v-col cols="2" md="1" class="pl-0">
         <div class="vote-content h-100">
           <v-icon>mdi-thumb-up</v-icon>
           <v-icon>mdi-thumb-down</v-icon>
@@ -68,12 +83,8 @@
 
 <script>
 import instance from "../main";
-import Tag from "src/components/Tag";
 export default {
   name: "Post",
-  components: {
-    Tag
-  },
   props: {
     index: {
       type: Number

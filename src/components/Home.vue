@@ -51,6 +51,9 @@ export default {
             },
             {
               title: "stripe"
+            },
+            {
+              title: "Django Rest Framework Test"
             }
           ]
         }
