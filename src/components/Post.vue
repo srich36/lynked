@@ -44,11 +44,11 @@
               {{ displayDescription }}
             </div>
           </div>
-          <div class="word-break d-flex ml-0 flex-wrap mt-2">
+          <div class="word-break d-flex ml-0 flex-wrap mt-2 d-sm-none">
             <UserMuted class="d-flex"></UserMuted>
             <DateMuted class="d-flex"></DateMuted>
           </div>
-          <div class="post-content-bottom">
+          <div class="post-content-bottom ">
             <v-chip
               v-for="(tag, idx) in tags"
               :key="idx"
@@ -59,9 +59,6 @@
               {{ tag.title }}
             </v-chip>
           </div>
-          <!-- <PostUserData
-            class="d-none d-sm-flex mobile-user-bottom"
-          ></PostUserData> -->
         </div>
       </v-col>
       <v-col cols="2" md="1" class="pl-0">
