@@ -31,6 +31,7 @@ export default {
 </script>
 
 <style>
+/* Set this because Vuetify for some reason has it at 1904 instead of 1920 */
 @media only screen and (max-width: 1930px) {
   .container {
     max-width: 1185px;

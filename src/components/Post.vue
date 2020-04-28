@@ -3,9 +3,11 @@
     <v-row>
       <v-col cols="4" sm="3" class="ml-2 pr-0">
         <div class="col-image-content h-100">
-          <!-- <div class="col-image px-5 pt-5 pb-1 mx-auto">
-            <v-img :lazy-src="defaultImagePath" :src="imageSrc"></v-img>
-          </div> -->
+          <v-img
+            :lazy-src="defaultImagePath"
+            :src="imageSrc"
+            class="ma-1"
+          ></v-img>
           <div class="col-tag pt-2">
             <Tag
               v-for="(tag, idx) in tags"
@@ -19,18 +21,20 @@
         </div>
       </v-col>
       <v-col class="pl-1 pl-sm-4 pl-lg-5 pl-xl-6 pr-0 pt-0">
-        <div class="col-main-content h-100">
+        <div class="col-main-content h-100 d-flex flex-column">
           <div class="post-top-content">
             <v-subheader class="break-word pl-0">
               {{ `${index + 1}. ${displayURL}` }}
             </v-subheader>
           </div>
-          <h5>
-            {{ title }}
-          </h5>
-          <p>
-            {{ displayDescription }}
-          </p>
+          <div class="post-content-main">
+            <h5>
+              {{ title }}
+            </h5>
+            <p>
+              {{ displayDescription }}
+            </p>
+          </div>
           <div class="post-content-bottom">
             <div class="bottom-content">
               <v-icon color="grey lighten-1" small>
@@ -158,6 +162,7 @@ export default {
 .col-image-content {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 }
 
 .col-image {
@@ -190,5 +195,17 @@ export default {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.img-fluid {
+  max-height: 100%;
+  height: auto;
+}
+
+.post-content-main {
+  flex: 1;
+}
+
+.post-image {
 }
 </style>
