@@ -13,7 +13,15 @@
 
     <v-divider class="mt-n5 mb-3"></v-divider>
 
-    <Post v-for="(key, idx) in [1, 2, 3]" :key="idx"></Post>
+    <Post
+      v-for="(post, idx) in posts"
+      :key="idx"
+      :title="post.title"
+      :link="post.link"
+      :description="post.description"
+      :tags="post.tags"
+      :index="idx"
+    ></Post>
   </v-container>
 </template>
 
@@ -30,7 +38,23 @@ export default {
   },
   data() {
     return {
-      title: "Test"
+      title: "Test",
+      posts: [
+        {
+          link:
+            "https://forge.medium.com/prepare-for-the-ultimate-gaslighting-6a8ce3f0a0e0",
+          title: "check check",
+
+          tags: [
+            {
+              title: "hn"
+            },
+            {
+              title: "stripe"
+            }
+          ]
+        }
+      ]
     };
   }
 };
