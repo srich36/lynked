@@ -3,7 +3,7 @@
     <v-overlay :value="overlay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
-    <v-toolbar flat dark>
+    <v-toolbar flat dark class="blue darken-3">
       <v-toolbar-title>Submit a post</v-toolbar-title>
     </v-toolbar>
 
@@ -11,7 +11,7 @@
       <v-text-field
         filled
         label="Link (required)"
-        :counter="200"
+        :counter="createPostValidators.link.maxLength || 150"
         v-model="link"
         :error-messages="linkErrors"
       ></v-text-field>
@@ -19,7 +19,7 @@
         filled
         label="Title (required)"
         v-model="title"
-        :counter="200"
+        :counter="createPostValidators.title.maxLength || 150"
         :error-messages="titleErrors"
       ></v-text-field>
 
@@ -27,7 +27,7 @@
         filled
         label="Description (optional)"
         v-model="description"
-        :counter="500"
+        :counter="createPostValidators.description.maxLength || 150"
         :error-messages="descriptionErrors"
       ></v-textarea>
 
@@ -52,15 +52,25 @@ import TagBox from "src/components/TagBox";
 import { mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, url } from "vuelidate/lib/validators";
+import { createPostValidators } from "src/config";
 export default {
   name: "CreatePostContent",
   components: { TagBox },
   mixins: [validationMixin],
 
   validations: {
-    link: { required, url, maxLength: maxLength(200) },
-    title: { required, maxLength: maxLength(200) },
-    description: { maxLength: maxLength(500) }
+    link: {
+      required,
+      url,
+      maxLength: maxLength(createPostValidators.link.maxLength || 200)
+    },
+    title: {
+      required,
+      maxLength: maxLength(createPostValidators.title.maxLength || 200)
+    },
+    description: {
+      maxLength: maxLength(createPostValidators.description.maxLength || 500)
+    }
   },
   validationGroup: ["link", "title", "description"],
   data() {
@@ -69,7 +79,8 @@ export default {
       title: "",
       description: "",
       tags: [],
-      overlay: false
+      overlay: false,
+      createPostValidators: createPostValidators
     };
   },
   computed: {
@@ -88,14 +99,18 @@ export default {
       !this.$v.link.required && errors.push("Link is required.");
       !this.$v.link.url && errors.push("Invalid url.");
       !this.$v.link.maxLength &&
-        errors.push("Link cannot be longer than 200 characters.");
+        errors.push(
+          `Link cannot be longer than ${this.createPostValidators.link.maxLength} characters.`
+        );
       return errors;
     },
     descriptionErrors() {
       const errors = [];
       if (!this.$v.description.$dirty) return errors;
       !this.$v.description.maxLength &&
-        errors.push("Description cannot be longer than 500 characters.");
+        errors.push(
+          `Description cannot be longer than ${this.createPostValidators.description.maxLength} characters.`
+        );
       return errors;
     },
     titleErrors() {
@@ -103,7 +118,9 @@ export default {
       if (!this.$v.title.$dirty) return errors;
       !this.$v.title.required && errors.push("Title is required.");
       !this.$v.title.maxLength &&
-        errors.push("Title cannot be longer than 200 characters.");
+        errors.push(
+          `Title cannot be longer than ${this.createPostValidators.title.maxLength} characters.`
+        );
       return errors;
     }
   },
@@ -116,9 +133,13 @@ export default {
       console.log(this.tags);
     },
 
-    async createPost() {
+    postInvalid() {
       this.$v.$touch();
-      if (this.$v.$invalid) return;
+      return this.$v.$invalid;
+    },
+
+    async createPost() {
+      if (this.postInvalid()) return;
       this.overlay = true;
       try {
         await this.aCreatePost(this.postParams);
@@ -129,9 +150,6 @@ export default {
         this.overlay = false;
       }
     }
-  },
-  mounted() {
-    console.log(this.$v);
   }
 };
 </script>
