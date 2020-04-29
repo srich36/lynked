@@ -12,10 +12,15 @@
     </v-row>
 
     <v-divider class="mt-n5 mb-3"></v-divider>
-    <v-skeleton-loader v-if="loading" type="article@15" tile height="65vh">
+    <v-skeleton-loader
+      v-if="loading"
+      type="skeleton"
+      :types="{ skeleton: 'article@15' }"
+      tile
+      height="65vh"
+    >
     </v-skeleton-loader>
     <Post
-      v-else
       v-for="(post, idx) in posts"
       :key="idx"
       :title="post.title"
@@ -51,8 +56,7 @@ export default {
     return {
       title: "Test",
       posts: [],
-      loading: false,
-      transition: "scale-transition"
+      loading: false
     };
   },
   methods: {
@@ -75,9 +79,12 @@ export default {
 </script>
 
 <style scoped>
-.SkeletonBox {
-  display: inline-block;
-  vertical-align: middle;
-  background-color: #dddbdd;
+.list-enter-active,
+.list-leave-active {
+  transition: all 10s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
