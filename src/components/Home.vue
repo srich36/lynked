@@ -55,16 +55,21 @@ export default {
       transition: "scale-transition"
     };
   },
-  async mounted() {
-    try {
-      this.loading = true;
-      const data = await instance.get("posts");
-      this.posts = data.data;
-    } catch (e) {
-      console.error(e);
-    } finally {
-      this.loading = false;
+  methods: {
+    async getPosts() {
+      try {
+        this.loading = true;
+        const data = await instance.get("posts");
+        this.posts = data.data;
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.loading = false;
+      }
     }
+  },
+  async mounted() {
+    this.getPosts();
   }
 };
 </script>
