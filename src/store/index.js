@@ -9,15 +9,15 @@ export default new Vuex.Store({
   mutations: {},
   actions: {
     async createPost(state, params) {
-      console.log(params);
       const { title, description, tags, link } = params;
       try {
         let data = await APICalls.createPost(link, title, description, tags);
-        console.log("Request succeeded");
-        console.log(data);
+        if (process.env.NODE_ENV === "development") {
+          console.log("Create post response");
+          console.log(data);
+        }
       } catch (e) {
-        console.log("Request failed");
-        console.log(e);
+        throw new Error(e);
       }
     }
   },

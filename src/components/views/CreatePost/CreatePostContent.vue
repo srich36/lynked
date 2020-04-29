@@ -1,5 +1,8 @@
 <template>
   <v-card>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <v-toolbar flat dark>
       <v-toolbar-title>Submit a post</v-toolbar-title>
     </v-toolbar>
@@ -37,7 +40,8 @@ export default {
       link: "",
       title: "",
       description: "",
-      tags: []
+      tags: [],
+      overlay: false
     };
   },
   computed: {
@@ -59,9 +63,16 @@ export default {
       console.log(this.tags);
     },
 
-    createPost() {
-      console.log(this.tags);
-      this.aCreatePost(this.postParams);
+    async createPost() {
+      this.overlay = true;
+      try {
+        await this.aCreatePost(this.postParams);
+        this.$router.push({ name: "home" });
+      } catch (e) {
+        if (process.env.NODE_ENV === "developmen") console.error(e);
+      } finally {
+        this.overlay = false;
+      }
     }
   }
 };
