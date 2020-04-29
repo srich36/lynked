@@ -12,8 +12,10 @@
     </v-row>
 
     <v-divider class="mt-n5 mb-3"></v-divider>
-
+    <v-skeleton-loader v-if="loading" type="article@15" tile height="65vh">
+    </v-skeleton-loader>
     <Post
+      v-else
       v-for="(post, idx) in posts"
       :key="idx"
       :title="post.title"
@@ -48,12 +50,29 @@ export default {
   data() {
     return {
       title: "Test",
-      posts: []
+      posts: [],
+      loading: false,
+      transition: "scale-transition"
     };
   },
   async mounted() {
-    const data = await instance.get("posts");
-    this.posts = data.data;
+    try {
+      this.loading = true;
+      const data = await instance.get("posts");
+      this.posts = data.data;
+    } catch (e) {
+      console.error(e);
+    } finally {
+      this.loading = false;
+    }
   }
 };
 </script>
+
+<style scoped>
+.SkeletonBox {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #dddbdd;
+}
+</style>
