@@ -15,7 +15,10 @@
           </v-img>
           <div class="user-col pt-2 mx-3 d-flex word-break">
             <UserMuted class="d-flex"></UserMuted>
-            <DateMuted class="d-flex"></DateMuted>
+            <DateMuted
+              :dateDisplay="dateSincePosting"
+              class="d-flex"
+            ></DateMuted>
           </div>
         </div>
       </v-col>
@@ -41,7 +44,10 @@
           </div>
           <div class="word-break d-flex ml-0 flex-wrap mt-2 d-sm-none">
             <UserMuted class="d-flex"></UserMuted>
-            <DateMuted class="d-flex"></DateMuted>
+            <DateMuted
+              class="d-flex"
+              :dateDisplay="dateSincePosting"
+            ></DateMuted>
           </div>
           <div class="post-content-bottom ">
             <v-chip
@@ -71,9 +77,10 @@
 </template>
 
 <script>
-import instance from "../main";
+import instance from "src/main";
 import UserMuted from "src/components/UserMuted";
 import DateMuted from "src/components/DateMuted";
+import { timeFormat } from "src/utils/display";
 
 export default {
   name: "Post",
@@ -114,6 +121,10 @@ export default {
     getPreview: {
       type: Boolean,
       default: false
+    },
+    datePosted: {
+      type: String,
+      default: ""
     }
   },
   data() {
@@ -135,6 +146,10 @@ export default {
 
       //If the preview description is undefined return null
       return postDescription ? postDescription : "";
+    },
+
+    dateSincePosting() {
+      return timeFormat(this.datePosted);
     },
 
     imageSrc() {

@@ -9,6 +9,7 @@
 
     <v-card-text>
       <v-text-field
+        autofocus
         filled
         label="Link (required)"
         :counter="createPostValidators.link.maxLength || 150"
@@ -98,6 +99,7 @@ export default {
 
     linkErrors() {
       const errors = [];
+      //Don't check for errors if the field is still "clean"
       if (!this.$v.link.$dirty) return errors;
       !this.$v.link.required && errors.push("Link is required.");
       !this.$v.link.url && errors.push("Invalid url.");
@@ -156,9 +158,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.app-subheader {
-  color: rgba(0, 0, 0, 0.6);
-}
-</style>

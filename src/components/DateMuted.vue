@@ -4,13 +4,19 @@
       mdi-calendar
     </v-icon>
     <div class="px-2 font-weight-thin caption break-word">
-      Date here
+      {{ dateDisplay }}
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "DateMuted"
+  name: "DateMuted",
+  props: {
+    dateDisplay: {
+      type: String,
+      required: true
+    }
+  }
 };
 </script>

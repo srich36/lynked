@@ -21,6 +21,7 @@
     >
     </v-skeleton-loader>
     <Post
+      v-else
       v-for="(post, idx) in posts"
       :key="idx"
       :title="post.title"
@@ -34,6 +35,7 @@
       :previewDescription="
         post.preview ? post.preview.preview_description : null
       "
+      :datePosted="post.date_posted"
       :previewTitle="post.preview ? post.preview.preview_title : null"
     ></Post>
   </v-container>
