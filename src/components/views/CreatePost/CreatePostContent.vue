@@ -14,6 +14,7 @@
         :counter="createPostValidators.link.maxLength || 150"
         v-model="link"
         :error-messages="linkErrors"
+        @change="$v.link.$touch()"
       ></v-text-field>
       <v-text-field
         filled
@@ -21,6 +22,7 @@
         v-model="title"
         :counter="createPostValidators.title.maxLength || 150"
         :error-messages="titleErrors"
+        @change="$v.title.$touch()"
       ></v-text-field>
 
       <v-textarea
@@ -29,6 +31,7 @@
         v-model="description"
         :counter="createPostValidators.description.maxLength || 150"
         :error-messages="descriptionErrors"
+        @change="$v.description.$touch()"
       ></v-textarea>
 
       <p class="body-2 font-weight-light pl-1 my-0">Tags (optional)</p>
