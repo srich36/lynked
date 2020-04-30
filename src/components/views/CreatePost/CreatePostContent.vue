@@ -84,7 +84,8 @@ export default {
       description: "",
       tags: [],
       overlay: false,
-      createPostValidators: createPostValidators
+      createPostValidators: createPostValidators,
+      tagCountValid: true
     };
   },
   computed: {
@@ -95,6 +96,12 @@ export default {
         description: this.description,
         tags: this.tags
       };
+    },
+
+    postValid() {
+      //Put this.postTextValid() first so it calls this.$v.$touch
+      //To dirty all the fields even when this.tagCountValid is false
+      return this.postTextValid() && this.tagCountValid;
     },
 
     linkErrors() {
@@ -133,17 +140,18 @@ export default {
     ...mapActions({
       aCreatePost: "createPost"
     }),
-    tagsUpdated(tags) {
+    tagsUpdated(tags, valid) {
       this.tags = tags;
+      this.tagCountValid = valid;
     },
 
-    postInvalid() {
+    postTextValid() {
       this.$v.$touch();
-      return this.$v.$invalid;
+      return !this.$v.$invalid;
     },
 
     async createPost() {
-      if (this.postInvalid()) return;
+      if (!this.postValid) return;
       this.overlay = true;
       try {
         await this.aCreatePost(this.postParams);
