@@ -37,7 +37,10 @@
 
       <p class="body-2 font-weight-light pl-1 my-0">Tags (optional)</p>
       <v-divider class="my-2"></v-divider>
-      <TagBox @tags-updated="tagsUpdated"></TagBox>
+      <TagBox
+        @tags-updated="tagsUpdated"
+        :maxTagsAllowed="tagBoxMaxLengths.create"
+      ></TagBox>
     </v-card-text>
 
     <v-divider></v-divider>
@@ -56,7 +59,8 @@ import TagBox from "src/components/TagBox";
 import { mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, url } from "vuelidate/lib/validators";
-import { createPostValidators } from "src/config";
+import { createPostValidators, tagBoxMaxLengths } from "src/config";
+
 export default {
   name: "CreatePostContent",
   components: { TagBox },
@@ -85,6 +89,7 @@ export default {
       tags: [],
       overlay: false,
       createPostValidators: createPostValidators,
+      tagBoxMaxLengths: tagBoxMaxLengths,
       tagCountValid: true
     };
   },

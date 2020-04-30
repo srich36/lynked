@@ -12,7 +12,7 @@
     solo
     item-text="title"
     :filter="filterSearch"
-    :counter="5"
+    :counter="maxTagsAllowed"
     :error-messages="tagErrors"
   >
     <template v-slot:prepend-inner>
@@ -71,9 +71,17 @@ export default {
   components: {
     Tag
   },
-  validations: {
-    tagsSelected: {
-      maxLength: maxLength(5)
+  validations() {
+    return {
+      tagsSelected: {
+        maxLength: maxLength(this.maxTagsAllowed)
+      }
+    };
+  },
+  props: {
+    maxTagsAllowed: {
+      type: Number,
+      default: 10
     }
   },
   data() {
@@ -92,7 +100,7 @@ export default {
       //Don't check for errors if the field is still "clean"
       if (!this.$v.tagsSelected.$dirty) return errors;
       !this.$v.tagsSelected.maxLength &&
-        errors.push("Maximum of 5 tags allowed.");
+        errors.push(`Maximum of ${this.maxTagsAllowed} tags allowed.`);
       return errors;
     }
   },

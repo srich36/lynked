@@ -13,4 +13,8 @@ const createPostValidators = {
   }
 };
 
-export { createPostValidators };
+const tagBoxMaxLengths = {
+  search: 10,
+  create: 5
+};
+export { createPostValidators, tagBoxMaxLengths };

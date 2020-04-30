@@ -7,7 +7,10 @@
     </v-row>
     <v-row class="pt-0 mt-n8">
       <v-col cols="12">
-        <TagBox @tags-updated="tagsUpdated"></TagBox>
+        <TagBox
+          @tags-updated="tagsUpdated"
+          :maxTagsAllowed="tagBoxMaxLengths.search"
+        ></TagBox>
       </v-col>
     </v-row>
 
@@ -46,6 +49,7 @@ import SearchBar from "src/components/SearchBar";
 import TagBox from "src/components/TagBox";
 import Post from "src/components/Post";
 import instance from "src/main";
+import { tagBoxMaxLengths } from "src/config";
 
 export default {
   name: "Home",
@@ -59,7 +63,8 @@ export default {
       posts: [],
       loading: false,
       searchTerm: "",
-      tags: []
+      tags: [],
+      tagBoxMaxLengths: tagBoxMaxLengths
     };
   },
   methods: {
