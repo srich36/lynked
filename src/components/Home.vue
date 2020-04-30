@@ -2,12 +2,12 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <SearchBar></SearchBar>
+        <SearchBar @search-changed="searchChanged"></SearchBar>
       </v-col>
     </v-row>
     <v-row class="pt-0 mt-n8">
       <v-col cols="12">
-        <TagBox></TagBox>
+        <TagBox @tags-updated="tagsUpdated"></TagBox>
       </v-col>
     </v-row>
 
@@ -56,22 +56,34 @@ export default {
   },
   data() {
     return {
-      title: "Test",
       posts: [],
-      loading: false
+      loading: false,
+      searchTerm: "",
+      tags: []
     };
   },
   methods: {
     async getPosts() {
       try {
         this.loading = true;
-        const data = await instance.get("posts");
+        const data = await instance.post("posts/searches", {
+          text: this.searchTerm,
+          tags: this.tags
+        });
         this.posts = data.data;
       } catch (e) {
         console.error(e);
       } finally {
         this.loading = false;
       }
+    },
+    searchChanged(search) {
+      this.searchTerm = search;
+      this.getPosts();
+    },
+    tagsUpdated(tags) {
+      this.tags = tags;
+      this.getPosts();
     }
   },
   async mounted() {

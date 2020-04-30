@@ -135,7 +135,6 @@ export default {
     }),
     tagsUpdated(tags) {
       this.tags = tags;
-      console.log(this.tags);
     },
 
     postInvalid() {

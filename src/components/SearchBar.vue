@@ -37,6 +37,11 @@ export default {
       focused: false
     };
   },
+  watch: {
+    search(newVal) {
+      this.$emit("search-changed", newVal);
+    }
+  },
   methods: {
     clearSearch() {
       this.search = "";
