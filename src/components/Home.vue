@@ -81,9 +81,9 @@ export default {
       this.searchTerm = search;
       this.getPosts();
     },
-    tagsUpdated(tags) {
+    tagsUpdated(tags, valid) {
       this.tags = tags;
-      this.getPosts();
+      if (valid) this.getPosts();
     }
   },
   async mounted() {

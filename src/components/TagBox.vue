@@ -12,6 +12,8 @@
     solo
     item-text="title"
     :filter="filterSearch"
+    :counter="5"
+    :error-messages="tagErrors"
   >
     <template v-slot:prepend-inner>
       <v-tooltip bottom class="stretch-prepend">
@@ -60,11 +62,19 @@
 <script>
 import Tag from "src/components/Tag";
 import instance from "src/main";
+import { validationMixin } from "vuelidate";
+import { maxLength } from "vuelidate/lib/validators";
 
 export default {
   name: "TagBox",
+  mixins: [validationMixin],
   components: {
     Tag
+  },
+  validations: {
+    tagsSelected: {
+      maxLength: maxLength(5)
+    }
   },
   data() {
     return {
@@ -75,6 +85,16 @@ export default {
       search: null,
       nonce: 0
     };
+  },
+  computed: {
+    tagErrors() {
+      const errors = [];
+      //Don't check for errors if the field is still "clean"
+      if (!this.$v.tagsSelected.$dirty) return errors;
+      !this.$v.tagsSelected.maxLength &&
+        errors.push("Maximum of 5 tags allowed.");
+      return errors;
+    }
   },
   watch: {
     tagsSelected(newTags, oldTags) {
@@ -99,7 +119,8 @@ export default {
       this.filterDuplicates();
       this.search = "";
       this.nonce = this.tagsSelected.length;
-      this.$emit("tags-updated", this.tagsSelected);
+      this.$v.$touch();
+      this.emitTagChange();
     },
 
     search() {
@@ -114,7 +135,7 @@ export default {
       const index = this.tagsSelected.map(tag => tag.title).indexOf(item.title);
       this.tagsSelected.splice(index, 1);
       this.nonce--;
-      this.$emit("tags-updated", this.tagsSelected);
+      this.emitTagChange();
     },
 
     getColor(index) {
@@ -134,6 +155,11 @@ export default {
       } catch (e) {
         console.error(e);
       }
+    },
+
+    emitTagChange() {
+      const tagsValid = !this.$v.$invalid;
+      this.$emit("tags-updated", this.tagsSelected, tagsValid);
     },
 
     filterDuplicates() {
