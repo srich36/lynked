@@ -11,7 +11,6 @@
     small-chips
     solo
     item-text="title"
-    item-value="count"
     :filter="filterSearch"
   >
     <template v-slot:prepend-inner>
@@ -89,8 +88,7 @@ export default {
       this.tagsSelected = newTags.map(tag => {
         if (typeof tag === "string") {
           tag = {
-            title: tag,
-            count: 0
+            title: tag
           };
 
           //this.items.push(tag);
