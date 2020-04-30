@@ -71,16 +71,8 @@ export default {
     return {
       tagsSelected: [],
       colors: ["green", "purple", "indigo", "cyan", "teal", "orange"],
-      tags: [
-        {
-          title: "Tech",
-          count: 1
-        },
-        {
-          title: "Med",
-          count: 2
-        }
-      ],
+      tags: [],
+      loaded: false,
       search: null,
       nonce: 0
     };
@@ -136,9 +128,10 @@ export default {
     },
 
     async searchForTags() {
+      if (this.loaded) return;
       try {
         const data = await instance.get("tags", {});
-        console.log(data);
+        this.loaded = true;
         this.tags = data.data;
       } catch (e) {
         console.error(e);
@@ -150,6 +143,9 @@ export default {
         return arr.map(mapObj => mapObj["title"]).indexOf(obj["title"]) === pos;
       });
     }
+  },
+  mounted() {
+    this.searchForTags();
   }
 };
 </script>
