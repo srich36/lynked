@@ -60,6 +60,7 @@
 
 <script>
 import Tag from "src/components/Tag";
+import instance from "src/main";
 
 export default {
   name: "TagBox",
@@ -109,6 +110,10 @@ export default {
       this.search = "";
       this.nonce = this.tagsSelected.length;
       this.$emit("tags-updated", this.tagsSelected);
+    },
+
+    search() {
+      this.searchForTags();
     }
   },
   methods: {
@@ -119,6 +124,7 @@ export default {
       const index = this.tagsSelected.map(tag => tag.title).indexOf(item.title);
       this.tagsSelected.splice(index, 1);
       this.nonce--;
+      this.$emit("tags-updated", this.tagsSelected);
     },
 
     getColor(index) {
@@ -127,6 +133,16 @@ export default {
     //Once search is filtered server-side no-filter should be set on the combobox
     filterSearch(item, searchString) {
       return item.title.toLowerCase().includes(searchString.toLowerCase());
+    },
+
+    async searchForTags() {
+      try {
+        const data = await instance.get("tags", {});
+        console.log(data);
+        this.tags = data.data;
+      } catch (e) {
+        console.error(e);
+      }
     },
 
     filterDuplicates() {
