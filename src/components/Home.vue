@@ -75,7 +75,7 @@ export default {
           text: this.searchTerm,
           tags: this.tags
         });
-        this.posts = data.data;
+        this.posts = data.data.posts;
       } catch (e) {
         console.error(e);
       } finally {
