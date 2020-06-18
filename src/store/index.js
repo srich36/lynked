@@ -6,9 +6,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    postPage: 1
   },
-  mutations: {},
+  mutations: {
+    updatePostPage(state, page) {
+      state.postPage = page;
+    }
+  },
   actions: {
     async createPost(state, params) {
       const { title, description, tags, link } = params;

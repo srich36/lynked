@@ -17,4 +17,11 @@ const tagBoxMaxLengths = {
   search: 10,
   create: 5
 };
-export { createPostValidators, tagBoxMaxLengths };
+
+const pagination = {
+  postsPerPage: 20,
+  visiblePageOptions: 10,
+  defaultNumberOfPosts: 100
+};
+
+export { createPostValidators, tagBoxMaxLengths, pagination };

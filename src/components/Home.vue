@@ -31,7 +31,7 @@
       :link="post.link"
       :description="post.description"
       :tags="post.tags"
-      :index="idx"
+      :index="getOverallPostIndex(idx)"
       :postId="post.id"
       :getPreview="post.preview ? false : true"
       :previewImageURL="post.preview ? post.preview.preview_image_url : null"
@@ -41,6 +41,15 @@
       :datePosted="post.date_posted"
       :previewTitle="post.preview ? post.preview.preview_title : null"
     ></Post>
+
+    <div class="text-center">
+      <v-pagination
+        :value="page"
+        :length="numberOfPages"
+        :total-visible="visibilePages"
+        @input="pageUpdated"
+      ></v-pagination>
+    </div>
   </v-container>
 </template>
 
@@ -50,6 +59,8 @@ import TagBox from "src/components/TagBox";
 import Post from "src/components/Post";
 import instance from "src/main";
 import { tagBoxMaxLengths } from "src/config";
+import { mapState, mapMutations } from "vuex";
+import { pagination } from "src/config";
 
 export default {
   name: "Home",
@@ -64,31 +75,58 @@ export default {
       loading: false,
       searchTerm: "",
       tags: [],
-      tagBoxMaxLengths: tagBoxMaxLengths
+      tagBoxMaxLengths: tagBoxMaxLengths,
+      postResults: pagination.defaultNumberOfPosts,
+      visibilePages: pagination.visiblePageOptions,
+      postsPerPage: pagination.postsPerPage
     };
   },
+  computed: {
+    ...mapState({
+      page: state => state.postPage
+    }),
+
+    numberOfPages() {
+      return Math.ceil(this.postResults / this.postsPerPage);
+    }
+  },
   methods: {
+    ...mapMutations({
+      updatePage: "updatePostPage"
+    }),
     async getPosts() {
       try {
         this.loading = true;
         const data = await instance.post("posts/searches", {
           text: this.searchTerm,
-          tags: this.tags
+          tags: this.tags,
+          offset: (this.page - 1) * this.postsPerPage,
+          limit: this.postsPerPage
         });
         this.posts = data.data.posts;
+        this.postResults = data.data.post_count;
       } catch (e) {
         console.error(e);
       } finally {
         this.loading = false;
       }
     },
+
+    getOverallPostIndex(idx) {
+      return idx + (this.page - 1) * this.postsPerPage;
+    },
     searchChanged(search) {
       this.searchTerm = search;
+      this.updatePage(1);
       this.getPosts();
     },
     tagsUpdated(tags, valid) {
       this.tags = tags;
       if (valid) this.getPosts();
+    },
+    pageUpdated(page) {
+      this.updatePage(page);
+      this.getPosts();
     }
   },
   async mounted() {
