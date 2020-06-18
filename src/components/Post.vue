@@ -64,12 +64,23 @@
       </v-col>
       <v-col cols="2" md="1" class="pl-0">
         <div class="vote-content h-100">
-          <v-btn icon>
-            <v-icon>mdi-thumb-up</v-icon>
-          </v-btn>
-          <v-btn icon>
-            <v-icon>mdi-thumb-down</v-icon>
-          </v-btn>
+          <v-tooltip right top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon v-bind="attrs" v-on="on">
+                <v-icon v-bind="attrs" v-on="on">mdi-thumb-up</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ user !== null ? "Upvote" : "Log in to upvote" }}</span>
+          </v-tooltip>
+          {{ voteCount }}
+          <v-tooltip right bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon v-bind="attrs" v-on="on">
+                <v-icon v-bind="attrs" v-on="on">mdi-thumb-down</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ user !== null ? "Downvote" : "Log in to downvote" }}</span>
+          </v-tooltip>
         </div></v-col
       >
     </v-row>
@@ -81,6 +92,7 @@ import instance from "src/main";
 import UserMuted from "src/components/UserMuted";
 import DateMuted from "src/components/DateMuted";
 import { timeFormat } from "src/utils/display";
+import { mapState } from "vuex";
 
 export default {
   name: "Post",
@@ -133,7 +145,8 @@ export default {
       previewTitleData: this.previewTitle,
       previewDescriptionData: this.previewDescription,
       defaultImagePath: require("@/assets/mystery.png"),
-      previewReturned: !this.getPreview
+      previewReturned: !this.getPreview,
+      voteCount: 10
     };
   },
 
@@ -170,7 +183,11 @@ export default {
     displayURL() {
       const url = new URL(this.link);
       return url.hostname;
-    }
+    },
+
+    ...mapState({
+      user: state => state.user
+    })
   },
 
   async mounted() {

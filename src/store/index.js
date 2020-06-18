@@ -5,7 +5,9 @@ import * as APICalls from "./api";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    user: null
+  },
   mutations: {},
   actions: {
     async createPost(state, params) {

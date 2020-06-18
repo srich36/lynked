@@ -71,6 +71,7 @@ export default {
     async getPosts() {
       try {
         this.loading = true;
+        console.log(this.tags);
         const data = await instance.post("posts/searches", {
           text: this.searchTerm,
           tags: this.tags
