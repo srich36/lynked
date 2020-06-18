@@ -24,7 +24,7 @@
       </v-row>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary dark>
+    <v-navigation-drawer v-model="drawer" temporary dark app>
       <NavDrawerContent></NavDrawerContent>
     </v-navigation-drawer>
   </div>
@@ -44,3 +44,11 @@ export default {
   data: () => ({ drawer: false })
 };
 </script>
+
+<style scoped>
+/* If you don't use the app attribute with the v-navigation-drawer component
+you need to apply position: fixed yourself */
+.v-nav-drawer {
+  position: fixed;
+}
+</style>
