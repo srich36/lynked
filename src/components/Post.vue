@@ -14,7 +14,7 @@
             </template>
           </v-img>
           <div class="user-col pt-2 mx-3 d-flex word-break">
-            <UserMuted class="d-flex"></UserMuted>
+            <UserMuted :userText="usernameText" class="d-flex"></UserMuted>
             <DateMuted
               :dateDisplay="dateSincePosting"
               class="d-flex"
@@ -43,7 +43,7 @@
             </div>
           </div>
           <div class="word-break d-flex ml-0 flex-wrap mt-2 d-sm-none">
-            <UserMuted class="d-flex"></UserMuted>
+            <UserMuted :userText="usernameText" class="d-flex"></UserMuted>
             <DateMuted
               class="d-flex"
               :dateDisplay="dateSincePosting"
@@ -70,7 +70,9 @@
                 <v-icon v-bind="attrs" v-on="on">mdi-thumb-up</v-icon>
               </v-btn>
             </template>
-            <span>{{ user !== null ? "Upvote" : "Log in to upvote" }}</span>
+            <span>{{
+              userLoggedIn !== null ? "Upvote" : "Log in to upvote"
+            }}</span>
           </v-tooltip>
           {{ voteCount }}
           <v-tooltip right bottom>
@@ -79,7 +81,9 @@
                 <v-icon v-bind="attrs" v-on="on">mdi-thumb-down</v-icon>
               </v-btn>
             </template>
-            <span>{{ user !== null ? "Downvote" : "Log in to downvote" }}</span>
+            <span>{{
+              userLoggedIn !== null ? "Downvote" : "Log in to downvote"
+            }}</span>
           </v-tooltip>
         </div></v-col
       >
@@ -137,6 +141,9 @@ export default {
     datePosted: {
       type: String,
       default: ""
+    },
+    postUserOwner: {
+      type: Object
     }
   },
   data() {
@@ -159,6 +166,10 @@ export default {
 
       //If the preview description is undefined return null
       return postDescription ? postDescription : "";
+    },
+
+    usernameText() {
+      return this.postUserOwner ? this.postUserOwner.username : "Anonymous";
     },
 
     dateSincePosting() {
@@ -186,7 +197,7 @@ export default {
     },
 
     ...mapState({
-      user: state => state.user
+      userLoggedIn: state => state.user
     })
   },
 

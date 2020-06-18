@@ -4,13 +4,19 @@
       mdi-account-circle
     </v-icon>
     <div class="px-2 font-weight-thin caption break-word">
-      User here
+      {{ userText }}
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "PostUserData"
+  name: "PostUserData",
+  props: {
+    userText: {
+      type: String,
+      default: "Anonymous"
+    }
+  }
 };
 </script>

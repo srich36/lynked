@@ -40,6 +40,7 @@
       "
       :datePosted="post.date_posted"
       :previewTitle="post.preview ? post.preview.preview_title : null"
+      :postUserOwner="post.user"
     ></Post>
 
     <div class="text-center">
