@@ -14,6 +14,12 @@ const baseURL = "http://127.0.0.1:8000/v1";
 const instance = axios.create({
   baseURL: baseURL
 });
+instance.interceptors.request.use(function(req) {
+  if (store.state.user !== null && store.state.user.key) {
+    req.headers["Authorization"] = `Token ${store.state.user.key}`;
+  }
+  return req;
+});
 
 Vue.config.productionTip = false;
 

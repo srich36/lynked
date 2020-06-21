@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import LoginContent from "src/views/login/LoginContent";
+import LoginContent from "src/views2/Login/LoginContent";
 import VFacebookLogin from "vue-facebook-login-component";
 
 export default {

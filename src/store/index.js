@@ -1,31 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import * as APICalls from "./api";
-
+import mutations from "src/store/mutations/mutations";
+import actions from "src/store/actions";
+import state from "src/store/state";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    user: null,
-    postPage: 1
-  },
-  mutations: {
-    updatePostPage(state, page) {
-      state.postPage = page;
-    }
-  },
-  actions: {
-    async createPost(state, params) {
-      const { title, description, tags, link } = params;
-      try {
-        let data = await APICalls.createPost(link, title, description, tags);
-        if (process.env.NODE_ENV === "development") {
-          console.log(data);
-        }
-      } catch (e) {
-        throw new Error(e);
-      }
-    }
-  },
+  state,
+  mutations,
+  actions,
   modules: {}
 });

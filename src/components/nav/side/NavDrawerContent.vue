@@ -21,13 +21,27 @@
           text="Create Post"
           icon="mdi-pencil"
         ></NavDrawerListItem>
+        <NavDrawerListItem
+          v-if="loggedIn === null"
+          link="/login"
+          text="Log in"
+          icon="mdi-login"
+        ></NavDrawerListItem>
+        <NavDrawerListItem
+          v-else
+          text="Log Out"
+          icon="mdi-logout"
+          @click="logoutUser"
+        >
+        </NavDrawerListItem>
       </v-list-item-group>
     </v-list>
   </div>
 </template>
 
 <script>
-import NavDrawerListItem from "src/components/NavDrawerListItem";
+import NavDrawerListItem from "src/components/nav/side/NavDrawerListItem";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "NavDrawerContent",
   components: {
@@ -35,6 +49,18 @@ export default {
   },
   data: () => ({
     group: ""
-  })
+  }),
+  computed: mapState({
+    loggedIn: state => state.user
+  }),
+  methods: {
+    ...mapMutations({
+      logout: "LOGOUT_USER"
+    }),
+    logoutUser() {
+      this.logout();
+      this.$router.push({ name: "login" });
+    }
+  }
 };
 </script>

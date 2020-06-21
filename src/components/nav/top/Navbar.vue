@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import NavDrawerContent from "src/components/NavDrawerContent";
+import NavDrawerContent from "src/components/nav/side/NavDrawerContent";
 import RouteButton from "src/components/RouteButton";
 import ResizeableFabButton from "src/components/ResizeableFabButton";
 export default {

@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      updatePage: "updatePostPage"
+      updatePage: "UPDATE_POST_PAGE"
     }),
     async getPosts() {
       try {

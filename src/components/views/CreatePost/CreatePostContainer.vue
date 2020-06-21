@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Navbar from "src/components/Navbar";
+import Navbar from "src/components/nav/top/Navbar";
 import AppFooter from "src/components/AppFooter";
 import CreatePostContent from "src/components/views/CreatePost/CreatePostContent";
 

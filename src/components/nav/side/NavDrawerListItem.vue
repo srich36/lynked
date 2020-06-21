@@ -1,5 +1,5 @@
 <template>
-  <v-list-item :to="link">
+  <v-list-item :to="link" @click="$emit('click')">
     <v-list-item-icon>
       <v-icon>{{ icon }}</v-icon>
     </v-list-item-icon>
@@ -12,8 +12,7 @@ export default {
   name: "NavDrawerListItem",
   props: {
     link: {
-      type: String,
-      required: true
+      type: String
     },
     text: {
       type: String,

@@ -12,4 +12,14 @@ const createPost = async (link, title, description, tags) => {
   return data;
 };
 
-export { createPost };
+const login = async (username, password) => {
+  const params = {
+    username,
+    password
+  };
+
+  let data = instance.post("/users/auth/login/", params);
+  return data;
+};
+
+export { createPost, login };

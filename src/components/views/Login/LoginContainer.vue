@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <Navbar></Navbar>
+  <div class="d-flex d-flex-col flex-1">
+    <NavBar></NavBar>
     <v-content>
-      <Home></Home>
+      <LoginPage></LoginPage>
     </v-content>
     <v-footer app>
       <AppFooter></AppFooter>
@@ -12,14 +12,14 @@
 
 <script>
 import AppFooter from "src/components/AppFooter";
-import Navbar from "src/components/nav/top/Navbar";
-import Home from "src/components/Home";
+import LoginPage from "src/components/views/Login/LoginPage";
+import NavBar from "src/components/nav/top/Navbar";
 export default {
   name: "HomeContainer",
   components: {
     AppFooter,
-    Navbar,
-    Home
+    LoginPage,
+    NavBar
   }
 };
 </script>
@@ -29,5 +29,9 @@ export default {
   .container {
     max-width: 1185px;
   }
+}
+
+.flex-1 {
+  flex: 1;
 }
 </style>

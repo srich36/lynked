@@ -1,8 +1,6 @@
 <template>
   <v-card>
-    <v-overlay :value="overlay">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
+    <LoadingOverlay :on="overlay"></LoadingOverlay>
     <v-toolbar flat dark class="blue darken-3">
       <v-toolbar-title>Submit a post</v-toolbar-title>
     </v-toolbar>
@@ -56,6 +54,7 @@
 
 <script>
 import TagBox from "src/components/TagBox";
+import LoadingOverlay from "src/components/shared/LoadingOverlay";
 import { mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, url } from "vuelidate/lib/validators";
@@ -63,7 +62,7 @@ import { createPostValidators, tagBoxMaxLengths } from "src/config";
 
 export default {
   name: "CreatePostContent",
-  components: { TagBox },
+  components: { TagBox, LoadingOverlay },
   mixins: [validationMixin],
 
   validations: {

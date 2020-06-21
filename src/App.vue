@@ -10,7 +10,12 @@ export default {
 
   data: () => ({
     //
-  })
+  }),
+  mounted() {
+    const username = localStorage.getItem("username");
+    const key = localStorage.getItem("key");
+    if (username && key) this.$store.commit("LOGIN_USER", { username, key });
+  }
 };
 </script>
 

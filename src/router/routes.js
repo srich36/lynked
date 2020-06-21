@@ -9,5 +9,10 @@ export default [
     name: "createPost",
     component: () =>
       import("src/components/views/CreatePost/CreatePostContainer")
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("src/components/views/Login/LoginContainer")
   }
 ];
