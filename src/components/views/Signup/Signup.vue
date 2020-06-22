@@ -83,14 +83,27 @@ export default {
     ...mapActions({
       aSignup: "registerUser"
     }),
-    signupUser() {
+    async signupUser() {
       const [username, email, password1, password2] = [
         this.username,
         this.email,
         this.password1,
         this.password2
       ];
-      this.aSignup({ username, email, password1, password2 });
+      try {
+        this.loadingOverlayOn = true;
+        await this.aSignup({
+          username,
+          email,
+          password1,
+          password2
+        });
+        this.$router.push({ name: "home" });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.loadingOverlayOn = false;
+      }
     }
   }
 };

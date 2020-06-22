@@ -30,7 +30,6 @@ const actions = {
 
   async registerUser({ commit }, { username, email, password1, password2 }) {
     try {
-      console.log(username);
       let data = await APICalls.registerUser(
         username,
         email,
