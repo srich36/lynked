@@ -89,7 +89,6 @@ export default {
       tagsSelected: [],
       colors: ["green", "purple", "indigo", "cyan", "teal", "orange"],
       tags: [],
-      loaded: false,
       search: null,
       nonce: 0
     };
@@ -149,16 +148,18 @@ export default {
     getColor(index) {
       return `${this.colors[index % this.colors.length]} lighten-3`;
     },
-    //Once search is filtered server-side no-filter should be set on the combobox
+    //Search is already filtered like this server-side but we reinforce it client side
     filterSearch(item, searchString) {
       return item.title.toLowerCase().includes(searchString.toLowerCase());
     },
 
     async searchForTags() {
-      if (this.loaded) return;
       try {
-        const data = await instance.get("tags", {});
-        this.loaded = true;
+        const data = await instance.get("tags", {
+          params: {
+            query: this.search
+          }
+        });
         this.tags = data.data;
       } catch (e) {
         console.error(e);

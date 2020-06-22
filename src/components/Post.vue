@@ -74,7 +74,7 @@
               userLoggedIn !== null ? "Upvote" : "Log in to upvote"
             }}</span>
           </v-tooltip>
-          {{ voteCount }}
+          <VoteCount :count="voteCount"></VoteCount>
           <v-tooltip right bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
@@ -95,6 +95,7 @@
 import instance from "src/main";
 import UserMuted from "src/components/UserMuted";
 import DateMuted from "src/components/DateMuted";
+import VoteCount from "src/components/VoteCount";
 import { timeFormat } from "src/utils/display";
 import { mapState } from "vuex";
 
@@ -102,7 +103,8 @@ export default {
   name: "Post",
   components: {
     UserMuted,
-    DateMuted
+    DateMuted,
+    VoteCount
   },
   props: {
     index: {
