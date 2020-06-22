@@ -2,7 +2,7 @@
   <div class="d-flex d-flex-col flex-1">
     <NavBar></NavBar>
     <v-content>
-      <LoginPage></LoginPage>
+      <router-view></router-view>
     </v-content>
     <v-footer app>
       <AppFooter></AppFooter>
@@ -12,13 +12,11 @@
 
 <script>
 import AppFooter from "src/components/AppFooter";
-import LoginPage from "src/components/views/Login/LoginPage";
 import NavBar from "src/components/nav/top/Navbar";
 export default {
   name: "HomeContainer",
   components: {
     AppFooter,
-    LoginPage,
     NavBar
   }
 };

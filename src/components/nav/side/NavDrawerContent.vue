@@ -23,7 +23,7 @@
         ></NavDrawerListItem>
         <NavDrawerListItem
           v-if="loggedIn === null"
-          link="/login"
+          link="/auth/login"
           text="Log in"
           icon="mdi-login"
         ></NavDrawerListItem>

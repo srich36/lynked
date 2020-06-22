@@ -22,4 +22,16 @@ const login = async (username, password) => {
   return data;
 };
 
-export { createPost, login };
+const registerUser = async (username, email, password1, password2) => {
+  const params = {
+    username,
+    email,
+    password1,
+    password2
+  };
+
+  let data = await instance.post("/users/auth/registration/", params);
+  return data;
+};
+
+export { createPost, login, registerUser };

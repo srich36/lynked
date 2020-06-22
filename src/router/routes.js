@@ -11,8 +11,20 @@ export default [
       import("src/components/views/CreatePost/CreatePostContainer")
   },
   {
-    path: "/login",
-    name: "login",
-    component: () => import("src/components/views/Login/LoginContainer")
+    path: "/auth",
+    name: "auth",
+    component: () => import("src/components/views/Auth/Auth"),
+    children: [
+      {
+        path: "login",
+        name: "login",
+        component: () => import("src/components/views/Login/LoginPage")
+      },
+      {
+        path: "signup",
+        name: "signup",
+        component: () => import("src/components/views/Signup/Signup")
+      }
+    ]
   }
 ];

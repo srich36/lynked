@@ -3,7 +3,7 @@
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
         <LoadingOverlay :on="loadingOverlayOn"></LoadingOverlay>
-        <CardForm title="Login">
+        <CardForm title="Login" class="login-card">
           <v-text-field
             label="Username"
             name="login"
@@ -30,7 +30,7 @@
             <div class="signup">
               <a
                 class="pb-0 mb-0 mx-auto link"
-                @click="$router.push({ name: 'Signup' })"
+                @click="$router.push({ name: 'signup' })"
                 >Don't have an account? Register</a
               >
             </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import CardForm from "src/components/views/Login/CardForm";
+import CardForm from "src/components/shared/CardForm";
 import LoadingOverlay from "src/components/shared/LoadingOverlay";
 import { mapActions } from "vuex";
 export default {
@@ -106,9 +106,6 @@ export default {
 </script>
 
 <style scoped>
-.login-background {
-}
-
 .login-card {
   transform: translatey(-10%);
 }
@@ -128,11 +125,11 @@ export default {
   align-items: flex-end;
 }
 
-.signup .link {
+a.link {
   color: grey;
 }
 
-.signup .link:hover {
+a.link:hover {
   text-decoration: underline;
   color: #1976d2;
 }
