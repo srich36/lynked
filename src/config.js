@@ -13,6 +13,15 @@ const createPostValidators = {
   }
 };
 
+const signupValidators = {
+  password1: {
+    minLength: 8
+  },
+  password2: {
+    minLength: 8
+  }
+};
+
 const tagBoxMaxLengths = {
   search: 10,
   create: 5
@@ -24,4 +33,4 @@ const pagination = {
   defaultNumberOfPosts: 100
 };
 
-export { createPostValidators, tagBoxMaxLengths, pagination };
+export { createPostValidators, tagBoxMaxLengths, pagination, signupValidators };

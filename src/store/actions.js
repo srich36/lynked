@@ -1,5 +1,9 @@
 import * as APICalls from "src/store/api";
-import { logJSONResponse, setAuthCredentials } from "src/store/utils";
+import {
+  logJSONResponse,
+  setAuthCredentials,
+  logErrorResponse
+} from "src/store/utils";
 const actions = {
   async createPost({ commit }, params) {
     const { title, description, tags, link } = params;
@@ -24,7 +28,8 @@ const actions = {
       commit("LOGIN_USER", { key, username });
       setAuthCredentials(key, username);
     } catch (e) {
-      throw new Error(e.response.status);
+      logErrorResponse(e);
+      throw e;
     }
   },
 
@@ -42,7 +47,8 @@ const actions = {
       commit("LOGIN_USER", { key, username });
       setAuthCredentials(key, username);
     } catch (e) {
-      throw new Error(e);
+      logErrorResponse(e);
+      throw e;
     }
   }
 };

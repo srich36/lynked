@@ -161,7 +161,7 @@ export default {
         await this.aCreatePost(this.postParams);
         this.$router.push({ name: "home" });
       } catch (e) {
-        if (process.env.NODE_ENV === "developmen") console.error(e);
+        if (process.env.NODE_ENV === "development") console.error(e);
       } finally {
         this.overlay = false;
       }

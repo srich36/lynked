@@ -9,9 +9,10 @@
             name="login"
             prepend-icon="mdi-account"
             type="text"
-            :error-messages="loginErrors"
+            :error-messages="usernameErrorMessages"
             :value="username"
             @input="updateUsername"
+            @change="$v.username.$touch()"
             autofocus
           ></v-text-field>
 
@@ -23,7 +24,8 @@
             name="password"
             prepend-icon="mdi-lock"
             type="password"
-            :error-messages="loginErrors"
+            @change="$v.password.$touch()"
+            :error-messages="passwordErrorMessages"
           ></v-text-field>
 
           <template v-slot:form-subcontent>
@@ -48,8 +50,15 @@
 </template>
 
 <script>
+/**
+ * write a component's description
+ */
 import CardForm from "src/components/shared/CardForm";
 import LoadingOverlay from "src/components/shared/LoadingOverlay";
+
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
+
 import { mapActions } from "vuex";
 export default {
   name: "LoginPage",
@@ -57,6 +66,42 @@ export default {
     CardForm,
     LoadingOverlay
   },
+  mixins: [validationMixin],
+  validations: {
+    username: {
+      required
+    },
+    password: {
+      required
+    }
+  },
+  computed: {
+    /**
+     * @description Create username error array for form validation
+     * @returns {Array}
+     */
+    usernameErrorMessages() {
+      const errors = [];
+      if (!this.$v.username.$dirty) return [];
+      !this.$v.username.required && errors.push("Username is required");
+      return this.loginErrors.concat(errors);
+    },
+
+    /**
+     * @description Create password error array for form validation
+     * @returns {Array}
+     */
+    passwordErrorMessages() {
+      const errors = [];
+      if (!this.$v.password.$dirty) return [];
+      !this.$v.password.required && errors.push("Password is required");
+      return this.loginErrors.concat(errors);
+    }
+  },
+  /**
+   * @description
+   * @returns {any}
+   */
   data() {
     return {
       username: "",
@@ -69,7 +114,22 @@ export default {
     ...mapActions({
       aLogin: "loginUser"
     }),
+
+    /**
+     * @description Return whether login form is valid
+     * @returns {Boolean}
+     */
+    loginFormValid() {
+      this.$v.$touch();
+      return !this.$v.$invalid;
+    },
+    /**
+     * @description Dispatch action to attempt to login
+     * the user given the provided credentials. Only runs if the
+     * form is valid
+     */
     async loginUser() {
+      if (!this.loginFormValid()) return;
       this.loadingOverlayOn = true;
       const username = this.username;
       const password = this.password;
@@ -89,14 +149,27 @@ export default {
       }
     },
 
+    /**
+     * @description Clear JSON response errors if the text is not
+     * empty (the user has started to re-enter information)
+     * @param {String} text
+     */
     checkToClearErrors(text) {
       if (text !== "") this.loginErrors = [];
     },
 
+    /**
+     * @description Set password based on what the user entered
+     * @param {String} password
+     */
     updatePassword(password) {
       this.checkToClearErrors(password);
       this.password = password;
     },
+    /**
+     * @description Set the username based on what the user entered
+     * @param {any} username
+     */
     updateUsername(username) {
       this.checkToClearErrors(username);
       this.username = username;

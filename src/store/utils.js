@@ -4,9 +4,15 @@ const logJSONResponse = res => {
   }
 };
 
+const logErrorResponse = err => {
+  if (process.env.NODE_ENV === "development") {
+    console.error(err);
+  }
+};
+
 const setAuthCredentials = (key, username) => {
   localStorage.setItem("key", key);
   localStorage.setItem("username", username);
 };
 
-export { logJSONResponse, setAuthCredentials };
+export { logJSONResponse, setAuthCredentials, logErrorResponse };
