@@ -146,6 +146,10 @@ export default {
     },
     postUserOwner: {
       type: Object
+    },
+    voteCount: {
+      type: Number,
+      default: 1
     }
   },
   data() {
@@ -154,8 +158,7 @@ export default {
       previewTitleData: this.previewTitle,
       previewDescriptionData: this.previewDescription,
       defaultImagePath: require("@/assets/mystery.png"),
-      previewReturned: !this.getPreview,
-      voteCount: 10
+      previewReturned: !this.getPreview
     };
   },
 

@@ -41,6 +41,7 @@
       :datePosted="post.date_posted"
       :previewTitle="post.preview ? post.preview.preview_title : null"
       :postUserOwner="post.user"
+      :voteCount="post.vote_count"
     ></Post>
 
     <div class="text-center">
