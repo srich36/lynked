@@ -33,4 +33,18 @@ const pagination = {
   defaultNumberOfPosts: 100
 };
 
-export { createPostValidators, tagBoxMaxLengths, pagination, signupValidators };
+const upvoteVal = 1;
+const downvoteVal = -1;
+const neutralVoteVal = 0;
+const unauthorizedStatusCode = 401;
+
+export {
+  createPostValidators,
+  tagBoxMaxLengths,
+  pagination,
+  signupValidators,
+  upvoteVal,
+  downvoteVal,
+  neutralVoteVal,
+  unauthorizedStatusCode
+};

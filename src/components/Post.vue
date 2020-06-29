@@ -66,7 +66,7 @@
         <div class="vote-content h-100">
           <v-tooltip right top>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on">
+              <v-btn icon v-bind="attrs" v-on="on" @click="vote(upvoteVal)">
                 <v-icon v-bind="attrs" v-on="on">mdi-thumb-up</v-icon>
               </v-btn>
             </template>
@@ -77,7 +77,7 @@
           <VoteCount :count="voteCount"></VoteCount>
           <v-tooltip right bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on">
+              <v-btn icon v-bind="attrs" v-on="on" @click="vote(downvoteVal)">
                 <v-icon v-bind="attrs" v-on="on">mdi-thumb-down</v-icon>
               </v-btn>
             </template>
@@ -97,7 +97,13 @@ import UserMuted from "src/components/UserMuted";
 import DateMuted from "src/components/DateMuted";
 import VoteCount from "src/components/VoteCount";
 import { timeFormat } from "src/utils/display";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+import {
+  upvoteVal,
+  downvoteVal,
+  neutralVoteVal,
+  unauthorizedStatusCode
+} from "src/config";
 
 export default {
   name: "Post",
@@ -158,7 +164,12 @@ export default {
       previewTitleData: this.previewTitle,
       previewDescriptionData: this.previewDescription,
       defaultImagePath: require("@/assets/mystery.png"),
-      previewReturned: !this.getPreview
+      previewReturned: !this.getPreview,
+      upvoteVal: upvoteVal,
+      downvoteVal: downvoteVal,
+      neutralVoteVal: neutralVoteVal,
+      postUpvoted: false,
+      postDownvoted: false
     };
   },
 
@@ -204,6 +215,28 @@ export default {
     ...mapState({
       userLoggedIn: state => state.user
     })
+  },
+
+  methods: {
+    ...mapActions({
+      aPostVote: "postVote"
+    }),
+    async vote(value) {
+      if (value === this.upvoteVal) {
+        this.postUpvoted = true;
+        const params = {
+          postId: this.postId,
+          value
+        };
+        try {
+          await this.aPostVote(params);
+        } catch (e) {
+          if (e.response.status === unauthorizedStatusCode) {
+            this.$router.push({ name: "login" });
+          }
+        }
+      }
+    }
   },
 
   async mounted() {

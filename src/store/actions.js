@@ -4,6 +4,7 @@ import {
   setAuthCredentials,
   logErrorResponse
 } from "src/store/utils";
+
 const actions = {
   async createPost({ commit }, params) {
     const { title, description, tags, link } = params;
@@ -33,6 +34,15 @@ const actions = {
     }
   },
 
+  async postVote(_, { postId, value }) {
+    try {
+      await APICalls.vote(postId, value);
+    } catch (e) {
+      logErrorResponse(e);
+      throw e;
+    }
+  },
+
   async registerUser({ commit }, { username, email, password1, password2 }) {
     try {
       let data = await APICalls.registerUser(
@@ -46,6 +56,18 @@ const actions = {
       logJSONResponse(data);
       commit("LOGIN_USER", { key, username });
       setAuthCredentials(key, username);
+    } catch (e) {
+      logErrorResponse(e);
+      throw e;
+    }
+  },
+
+  async searchPosts({ commit }, { text, tags, offset, limit }) {
+    try {
+      let data = await APICalls.searchPosts(text, tags, offset, limit);
+      const posts = data.data.posts;
+      commit("SET_POSTS", posts);
+      commit("SET_POST_COUNT", data.data.post_count);
     } catch (e) {
       logErrorResponse(e);
       throw e;

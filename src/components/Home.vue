@@ -59,9 +59,8 @@
 import SearchBar from "src/components/SearchBar";
 import TagBox from "src/components/TagBox";
 import Post from "src/components/Post";
-import instance from "src/main";
 import { tagBoxMaxLengths } from "src/config";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import { pagination } from "src/config";
 
 export default {
@@ -73,19 +72,19 @@ export default {
   },
   data() {
     return {
-      posts: [],
       loading: false,
       searchTerm: "",
       tags: [],
       tagBoxMaxLengths: tagBoxMaxLengths,
-      postResults: pagination.defaultNumberOfPosts,
       visibilePages: pagination.visiblePageOptions,
       postsPerPage: pagination.postsPerPage
     };
   },
   computed: {
     ...mapState({
-      page: state => state.postPage
+      page: state => state.postPage,
+      postResults: state => state.postReturnedCount,
+      posts: state => state.posts
     }),
 
     numberOfPages() {
@@ -96,22 +95,20 @@ export default {
     ...mapMutations({
       updatePage: "UPDATE_POST_PAGE"
     }),
+    ...mapActions({
+      aSearchPosts: "searchPosts"
+    }),
     async getPosts() {
-      try {
-        this.loading = true;
-        const data = await instance.post("posts/searches", {
-          text: this.searchTerm,
-          tags: this.tags,
-          offset: (this.page - 1) * this.postsPerPage,
-          limit: this.postsPerPage
-        });
-        this.posts = data.data.posts;
-        this.postResults = data.data.post_count;
-      } catch (e) {
-        console.error(e);
-      } finally {
-        this.loading = false;
-      }
+      this.loading = true;
+      const params = {
+        text: this.searchTerm,
+        tags: this.tags,
+        offset: (this.page - 1) * this.postsPerPage,
+        limit: this.postsPerPage
+      };
+
+      await this.aSearchPosts(params);
+      this.loading = false;
     },
 
     getOverallPostIndex(idx) {
