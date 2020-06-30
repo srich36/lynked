@@ -10,9 +10,7 @@ const actions = {
     const { title, description, tags, link } = params;
     try {
       let data = await APICalls.createPost(link, title, description, tags);
-      if (process.env.NODE_ENV === "development") {
-        console.log(data);
-      }
+      logJSONResponse(data);
       commit("UPDATE_POST_PAGE", 1);
     } catch (e) {
       throw new Error(e);
@@ -22,9 +20,7 @@ const actions = {
   async loginUser({ commit }, { username, password }) {
     try {
       let data = await APICalls.login(username, password);
-      if (process.env.NODE_ENV === "development") {
-        console.log(data);
-      }
+      logJSONResponse(data);
       const key = data.data.key;
       commit("LOGIN_USER", { key, username });
       setAuthCredentials(key, username);
@@ -34,9 +30,13 @@ const actions = {
     }
   },
 
-  async postVote(_, { postId, value }) {
+  async postVote({ commit }, { postId, value }) {
     try {
-      await APICalls.vote(postId, value);
+      let data = await APICalls.vote(postId, value);
+      logJSONResponse(data);
+      const voteCount = data.data.vote_count;
+      commit("SET_POST_VOTE_COUNT", { postId, voteCount });
+      commit("SET_POST_VOTE_VALUE", { postId, value });
     } catch (e) {
       logErrorResponse(e);
       throw e;

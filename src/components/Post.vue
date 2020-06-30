@@ -66,7 +66,13 @@
         <div class="vote-content h-100">
           <v-tooltip right top>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on" @click="vote(upvoteVal)">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                @click="vote(upvoteVal)"
+                :color="upvoteIconColor"
+              >
                 <v-icon v-bind="attrs" v-on="on">mdi-thumb-up</v-icon>
               </v-btn>
             </template>
@@ -77,7 +83,13 @@
           <VoteCount :count="voteCount"></VoteCount>
           <v-tooltip right bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on" @click="vote(downvoteVal)">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                @click="vote(downvoteVal)"
+                :color="downvoteIconColor"
+              >
                 <v-icon v-bind="attrs" v-on="on">mdi-thumb-down</v-icon>
               </v-btn>
             </template>
@@ -156,6 +168,10 @@ export default {
     voteCount: {
       type: Number,
       default: 1
+    },
+    userVote: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -168,8 +184,8 @@ export default {
       upvoteVal: upvoteVal,
       downvoteVal: downvoteVal,
       neutralVoteVal: neutralVoteVal,
-      postUpvoted: false,
-      postDownvoted: false
+      postInUpvotingProgress: false,
+      postInDownvotingProgress: false
     };
   },
 
@@ -182,6 +198,18 @@ export default {
 
       //If the preview description is undefined return null
       return postDescription ? postDescription : "";
+    },
+
+    upvoteIconColor() {
+      return this.postInUpvotingProgress || this.userVote === upvoteVal
+        ? "blue"
+        : "gray";
+    },
+
+    downvoteIconColor() {
+      return this.postInDownvotingProgress || this.userVote === this.downvoteVal
+        ? "blue"
+        : "gray";
     },
 
     usernameText() {
@@ -221,20 +249,69 @@ export default {
     ...mapActions({
       aPostVote: "postVote"
     }),
+
+    pushToLoginPage() {
+      this.$router.push({ name: "login" });
+    },
+
+    checkErrorForAuthentication(error) {
+      if (error.response.status === unauthorizedStatusCode) {
+        this.pushToLoginPage();
+      }
+    },
+
+    async sendVote(value) {
+      const params = {
+        postId: this.postId,
+        value
+      };
+      try {
+        await this.aPostVote(params);
+      } catch (e) {
+        this.checkErrorForAuthentication(e);
+      }
+    },
+
+    async upvotePost() {
+      this.postInUpvotingProgress = true;
+      this.postInDownvotingProgress = false;
+      let voteValue;
+
+      //If user clicks upvote again after the post is already upvoted,
+      //remove the upvote
+      this.userVote === this.upvoteVal
+        ? (voteValue = 0)
+        : (voteValue = this.upvoteVal);
+
+      await this.sendVote(voteValue);
+
+      this.postInUpvotingProgress = false;
+    },
+
+    async downvotePost() {
+      this.postInDownvotingProgress = true;
+      this.postInUpvotingProgress = false;
+
+      let voteValue;
+
+      //If user clicks downvote again after the post is already downvote,
+      //remove the downvote
+      this.userVote === this.downvoteVal
+        ? (voteValue = 0)
+        : (voteValue = this.downvoteVal);
+
+      await this.sendVote(voteValue);
+      this.postInDownvotingProgress = false;
+    },
     async vote(value) {
+      if (!this.userLoggedIn) {
+        this.pushToLoginPage();
+        return;
+      }
       if (value === this.upvoteVal) {
-        this.postUpvoted = true;
-        const params = {
-          postId: this.postId,
-          value
-        };
-        try {
-          await this.aPostVote(params);
-        } catch (e) {
-          if (e.response.status === unauthorizedStatusCode) {
-            this.$router.push({ name: "login" });
-          }
-        }
+        this.upvotePost(this.upvoteVal);
+      } else if (value === this.downvoteVal) {
+        this.downvotePost();
       }
     }
   },

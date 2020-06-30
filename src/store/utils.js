@@ -15,4 +15,9 @@ const setAuthCredentials = (key, username) => {
   localStorage.setItem("username", username);
 };
 
-export { logJSONResponse, setAuthCredentials, logErrorResponse };
+const findPostById = (posts, postId) => {
+  const post = posts.find(post => post.id === postId);
+  return post;
+};
+
+export { logJSONResponse, setAuthCredentials, logErrorResponse, findPostById };
