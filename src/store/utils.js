@@ -15,9 +15,13 @@ const setAuthCredentials = (key, username) => {
   localStorage.setItem("username", username);
 };
 
+const removeAuthCredentials = () => {
+  localStorage.removeItem("username");
+  localStorage.removeItem("key");
+};
 const findPostById = (posts, postId) => {
   const post = posts.find(post => post.id === postId);
   return post;
 };
 
-export { logJSONResponse, setAuthCredentials, logErrorResponse, findPostById };
+export { logJSONResponse, setAuthCredentials, logErrorResponse, findPostById, removeAuthCredentials };

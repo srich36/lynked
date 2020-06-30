@@ -1,13 +1,12 @@
 import * as types from "src/store/mutations/mutationNames";
-import { findPostById } from "src/store/utils";
+import { findPostById, removeAuthCredentials } from "src/store/utils";
 
 const mutations = {
   [types.UPDATE_POST_PAGE](state, page) {
     state.postPage = page;
   },
   [types.LOGOUT_USER](state) {
-    localStorage.removeItem("username");
-    localStorage.removeItem("key");
+    removeAuthCredentials();
     state.user = null;
   },
   [types.LOGIN_USER](state, { key, username }) {

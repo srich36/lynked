@@ -70,7 +70,6 @@ const actions = {
       commit("SET_POST_COUNT", data.data.post_count);
     } catch (e) {
       logErrorResponse(e);
-      throw e;
     }
   }
 };
